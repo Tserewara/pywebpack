@@ -1,7 +1,8 @@
 import os
 import subprocess
 import json
-import inspect
+import psutil
+
 from flask import Blueprint
 
 
@@ -102,12 +103,16 @@ class PyWebpack:
         if mode == 'production':
             subprocess.call([self.npm_path, 'run', 'build-prod'])
         else:
-            import psutil
-
-            processes = [item.info['name'] for item in psutil.process_iter(['pid', 'name', 'username'])]
-
-            if 'cmd.exe' not in processes:
+            if not self.webpack_is_running():
                 subprocess.Popen(["start", "cmd", "/k", "npm run build-dev"], shell=True)
+
+    def webpack_is_running(self):
+        processes = [process for process in psutil.process_iter(['pid', 'name']) if process.as_dict(['name'])[
+            'name'] == 'node.exe']
+
+        processes_cwd = [process.as_dict(['cwd'])['cwd'] for process in processes]
+
+        return self.base_directory in processes_cwd
 
 
 
