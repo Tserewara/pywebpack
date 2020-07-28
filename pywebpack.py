@@ -63,7 +63,7 @@ class PyWebpack:
 
             blueprint_path = blueprint.root_path
 
-            package_json_path = os.path.join(blueprint_path, 'static_bp_one/conf.json')
+            package_json_path = os.path.join(blueprint_path, f'{blueprint.name.strip("bp_")}_static\conf.json')
 
             if os.path.isfile(package_json_path):
                 with open(package_json_path, 'r') as j:
@@ -160,11 +160,11 @@ class BlueprintConfig:
         return self.__boilerplate
 
     def create_conf_json_for_blueprint(self):
-        with open(f'{self.blueprint_path}/static_bp_one/conf.json', 'w') as conf:
+        with open(f'{self.blueprint_path}/{self.blueprint_name}_static/conf.json', 'w') as conf:
             conf.write(self.boilerplate)
 
     def create_static_folder_tree(self):
-        static_folder = os.path.join(self.blueprint_path, 'static_bp_one/src')
+        static_folder = os.path.join(self.blueprint_path, f'{self.blueprint_name}_static/src')
         if not os.path.exists(static_folder):
 
             self.create_sub_folder(static_folder, 'js')
