@@ -64,7 +64,6 @@ class PyWebpack:
             blueprint_path = blueprint.root_path
 
             package_json_path = os.path.join(blueprint_path, f'{blueprint.name}_static\conf.json')
-            print(package_json_path)
 
             if os.path.isfile(package_json_path):
                 with open(package_json_path, 'r') as j:
@@ -84,9 +83,9 @@ class PyWebpack:
         package_json = ','.join(package_json_files)
         content = content.format(package_json)
 
-        if not os.path.exists('webpack.config.js'):
-            with open('webpack.config.js', 'w') as wp:
-                wp.write(content)
+
+        with open('webpack.config.js', 'w') as wp:
+            wp.write(content)
 
     def install_webpack_dependencies(self):
         subprocess.call([self.npm_path, 'install', 'webpack', 'webpack-cli', '--save-dev'])
@@ -170,7 +169,7 @@ class BlueprintConfig:
             self.create_file(f'{static_folder}/js', 'index.js')
 
             self.create_sub_folder(static_folder, 'scss')
-            self.create_file(f'{static_folder}/scss', 'styles.scss')
+            self.create_file(f'{static_folder}/scss', 'index.scss')
 
             self.create_sub_folder(static_folder, 'images')
 
