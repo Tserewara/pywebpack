@@ -147,6 +147,10 @@ class BlueprintConfig:
 
         blueprint_parents = self.blueprint_path.split("\\")
         blueprint_abs_path = '/'.join(blueprint_parents)
+        print(self.__blueprint_relative_path)
+        print(blueprint_parents)
+
+
 
         with open(f'pywebpack/boilerplates/conf.json.ini', 'r') as bp:
             self.__boilerplate = bp.read()
